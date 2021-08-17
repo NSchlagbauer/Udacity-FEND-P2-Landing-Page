@@ -17,7 +17,8 @@
  * Define Global Variables
  * 
 */
-
+const sections = document.getElementsByTagName('section');
+const navList = document.getElementById('navbar__list');
 
 /**
  * End Global Variables
@@ -34,7 +35,21 @@
 */
 
 // build the nav
+const startTime = performance.now();
 
+const docFrag = document.createDocumentFragment();
+
+for (const section of sections) {
+  const navItem = document.createElement('li');
+  navItem.innerHTML = '<a class="menu__link">' + section.dataset.nav + '</a>';
+  docFrag.appendChild(navItem);
+}
+
+navList.appendChild(docFrag);
+
+const endTime = performance.now();
+const timeSpan = endTime - startTime;
+console.log('This took ' + timeSpan + 'ms');
 
 // Add class 'active' to section when near top of viewport
 
