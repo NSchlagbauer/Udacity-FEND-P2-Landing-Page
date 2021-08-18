@@ -35,8 +35,6 @@ const navList = document.getElementById('navbar__list');
 */
 
 // build the nav
-const startTime = performance.now();
-
 const docFrag = document.createDocumentFragment();
 
 for (const section of sections) {
