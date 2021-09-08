@@ -59,6 +59,7 @@ The function setActiveSection loops through all sections and calls the function 
 [(Back to top)](#table-of-contents)
 
 The function scrollToSection(sectionID) looks for the element with the provided ID and looks for its position in the document. Afterwards, it substracts an offset for the height of the navigation menu and a little extra space and scrolls to the calculated Y coordinate.
+I opted to write the scroll function manually instead of using href="#id-of-target" so I could implement smooth scrolling without using only JavaScript and implement an offset for the navigation menu.
 
 ## Dependencies
 [(Back to top)](#table-of-contents)
