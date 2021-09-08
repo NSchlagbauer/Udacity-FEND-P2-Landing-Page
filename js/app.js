@@ -20,8 +20,8 @@
 const sections = document.getElementsByTagName('section');
 const navList = document.getElementById('navbar__list');
 const navBar = document.querySelector('.navbar__menu');
-const navBarHeight = navBar.clientHeight;
-const contentHeight = window.innerHeight - navBarHeight;
+let navBarHeight;
+let contentHeight;
 let navLinks;
 
 /**
@@ -33,9 +33,10 @@ function isScrolledIntoView(element) {
   const rect = element.getBoundingClientRect();
   const elementTop = rect.top;
   const elementBottom = rect.bottom;
+  contentHeight = window.innerHeight - navBarHeight;
 
-// element is active while its top is sitting above 50% of window height and it's bottom is below the 50% window height
-  const isVisible = elementTop < contentHeight-(contentHeight/2)+navBarHeight && elementBottom >= contentHeight/2+navBarHeight;
+  // element is active while its top is sitting above 50% of window height and it's bottom is below the 50% window height
+  const isVisible = elementTop < contentHeight - (contentHeight / 2) + navBarHeight && elementBottom >= contentHeight / 2 + navBarHeight;
   return isVisible;
 }
 
@@ -46,7 +47,7 @@ function isScrolledIntoView(element) {
 */
 
 // build the nav
-function buildNav () {
+function buildNav() {
   const docFrag = document.createDocumentFragment();
 
   for (const section of sections) {
@@ -57,24 +58,26 @@ function buildNav () {
 
   navList.appendChild(docFrag);
   navLinks = document.getElementsByClassName('menu__link');
+  navBarHeight = navBar.clientHeight;
 }
 
 // Add class 'active' to section when near top of viewport
-function setActiveSection () {
+function setActiveSection() {
   for (const section of sections) {
     if (isScrolledIntoView(section)) {
       section.classList.add('active-section');
     }
     else {
       section.classList.remove('active-section');
-    }  
+    }
   }
 }
 
-// Scroll to anchor ID using scrollTO event
-function scrollToSection (sectionID) {
+// Scroll to anchor ID
+function scrollToSection(sectionID) {
   const selectedSection = document.querySelector(`section#${sectionID}`);
-  selectedSection.scrollIntoView({behavior: "smooth", block: "start"});
+  const y = selectedSection.getBoundingClientRect().top + window.scrollY - navBarHeight - 20;
+  window.scroll({ top: y, behavior: 'smooth' });
 }
 
 /**
@@ -84,17 +87,13 @@ function scrollToSection (sectionID) {
 */
 
 // Build menu 
-buildNav ();
-
+buildNav();
 
 // Scroll to section on link click
 for (const navLink of navLinks) {
-  navLink.addEventListener('click', function() {
-    scrollToSection(navLink.id);});
-}
-
-function logClick (){
-  console.log('click');
+  navLink.addEventListener('click', function () {
+    scrollToSection(navLink.id);
+  });
 }
 
 // Set sections as active
